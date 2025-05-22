@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mariadb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mariadb
+  template:
+    metadata:
+      labels:
+        app: mariadb
+    spec:
+      containers:
+        - name: mariadb
+          image: mariadb:11.6.2
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: my_root_password
+            - name: MYSQL_DATABASE
+              value: my_db
+            - name: MYSQL_USER
+              value: my_user
+            - name: MYSQL_PASSWORD
+              value: my_password
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+            - name: database-storage
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: database-storage
+          persistentVolumeClaim:
+            claimName: pvc-database # This is the actual PVC name
