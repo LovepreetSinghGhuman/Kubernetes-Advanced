@@ -1,7 +1,7 @@
-wordpressUsername: lovepreet
+wordpressUsername: nathan
 service:
   type: NodePort
   nodePorts:
     http: 30010
     https: 30011
-wordpressBlogName: Lovepreet's AI Blog
+wordpressBlogName: Nathan's AI Blog
