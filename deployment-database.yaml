@@ -1,35 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mariadb
+  name: storage-demo
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: mariadb
+      app: storage-demo
   template:
     metadata:
       labels:
-        app: mariadb
+        app: storage-demo
     spec:
       containers:
-        - name: mariadb
-          image: mariadb:11.6.2
-          env:
-            - name: MYSQL_ROOT_PASSWORD
-              value: my_root_password
-            - name: MYSQL_DATABASE
-              value: my_db
-            - name: MYSQL_USER
-              value: my_user
-            - name: MYSQL_PASSWORD
-              value: my_password
+        - name: storage-demo
+          image: ghcr.io/nathansegers/kubernetes-storage-test
           ports:
-            - containerPort: 3306
+            - containerPort: 8080
           volumeMounts:
-            - name: database-storage
-              mountPath: /var/lib/mysql
+            - name: storage-data
+              mountPath: /data
       volumes:
-        - name: database-storage
+        - name: storage-data
           persistentVolumeClaim:
-            claimName: pvc-database # This is the actual PVC name
+            claimName: pvc-database
